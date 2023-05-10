@@ -66,6 +66,7 @@ def plot_dphre_ms(P, filename=None):
     
 
 #Question 5
+#Il reste à nommer les courbes et les axes du graphe
 def plot_CL_fonction_de_alpha(P, filename=None):
     alphas = np.deg2rad(np.linspace(-10, 20, 30))
     mss = [0.2, 1.]
@@ -80,10 +81,12 @@ def plot_CL_fonction_de_alpha(P, filename=None):
 
     
 def seance_1(ac=dyn.Param_A321()):
-    plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
-    plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
-    plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
-    plot_dphre_ms(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
+    #plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
+    #plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
+    #plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
+    #plot_dphre_ms(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
+    plot_CL_fonction_de_alpha(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
+
     
 
 
