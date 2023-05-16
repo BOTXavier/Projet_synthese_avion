@@ -50,7 +50,9 @@ def plot_Cm(P, filename=None):
                 ['$ms =  ${: .1f}'.format(ms) for ms in mss])
     ut.savefig(filename)
 
+
 #Question 4
+
 def dphre(P,alpha): return (P.Cm0 +Cm(P, alpha)*(alpha-P.a0))/P.Cmd
 
 def plot_dphre_ms(P, filename=None):
@@ -64,20 +66,21 @@ def plot_dphre_ms(P, filename=None):
             ['$ms =  ${: .1f}'.format(ms) for ms in mss])
     ut.savefig(filename)
     
-
 #Question 5
-#Il reste à nommer les courbes et les axes du graphe
-def plot_CL_fonction_de_alpha(P, filename=None):
+def plot_CLe_ae(P, filename=None):
     alphas = np.deg2rad(np.linspace(-10, 20, 30))
-    mss = [0.2, 1.]
+    mss=[0.2, 1.]
+    figure = ut.prepare_fig(None, f"Coefficient de portance équilibrée {P.name}")
     for ms in mss:
         CLs = []
         for alpha in alphas:
             P.set_mass_and_static_margin(0.5,ms)
-            dphr = dphre(P,alpha)
-            CLs.append(CL(P, alpha, dphr))
-        plt.plot(np.rad2deg(alphas), CLs)
-    plt.show()
+            dphreq = dphre(P,alpha)
+            CLs.append(CL(P, alpha, dphreq))
+        plt.plot(np.rad2deg(alphas),CLs)
+    ut.decorate(plt.gca(), u"Coefficient de portance équilibrée {}".format(P.name), r'$\alpha_{e}$ en degres', '$CL_{e}$',
+            ['$ms =  ${: .1f}'.format(ms) for ms in mss])
+    ut.savefig(filename)
 
 
 #Question 6
@@ -101,19 +104,13 @@ def plot_CL_equilibree(P, filename=None):
     plt.show()
 
 
-  
 def seance_1(ac=dyn.Param_A321()):
-    #plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
-    #plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
-    #plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
-    #plot_dphre_ms(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
-    plot_CL_fonction_de_alpha(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
-    plot_CL_equilibree(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
-
-    
-
-
-
+    plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
+    plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
+    plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
+    plot_dphre_ms(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
+    plot_CLe_ae(ac, f'../plots/{ac.get_name()}_Cle.png')
+    plot_CL_equilibree(ac, f'../plots/{ac.get_name()}_ms.png')
 
 if __name__ == "__main__":
     if 'all' in sys.argv:
