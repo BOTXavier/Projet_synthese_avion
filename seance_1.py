@@ -79,13 +79,36 @@ def plot_CL_fonction_de_alpha(P, filename=None):
         plt.plot(np.rad2deg(alphas), CLs)
     plt.show()
 
-    
+
+#Question 6
+def plot_CL_equilibree(P, filename=None):
+    figure = ut.prepare_fig(None, f'Coefficient de portance {P.name}')
+    alphas = np.deg2rad(np.linspace(-10, 20, 30))
+    mss = [0.2, 1.]
+    for ms in mss:
+        CLs = []
+        CDs = []
+        for alpha in alphas:
+            P.set_mass_and_static_margin(0.5,ms)
+            dphr = dphre(P,alpha)
+            CLs.append(CL(P, alpha, dphr))
+            CDs.append(dyn.get_aero_coefs(1,alpha,0,dphr,P)[1])
+        plt.plot(CDs, CLs)
+   
+    ut.decorate(plt.gca(), u'Coefficient de Portance équilibré {}'.format(P.name), '$C_D$', '$C_L$',
+                ['$ms =  ${:.1f}'.format(ms) for ms in mss])
+    ut.savefig(filename)
+    plt.show()
+
+
+  
 def seance_1(ac=dyn.Param_A321()):
     #plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
     #plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
     #plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
     #plot_dphre_ms(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
     plot_CL_fonction_de_alpha(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
+    plot_CL_equilibree(ac, f'../plots/{ac.get_name()}_dphre_ms.png')
 
     
 
@@ -97,6 +120,6 @@ if __name__ == "__main__":
         for t in dyn.all_ac_types:
             seance_1(t())
     else:
-        P = dyn.Param_A320()#use_improved_induced_drag = False, use_stall = False)
+        P = dyn.Param_A321()#use_improved_induced_drag = False, use_stall = False)
         seance_1(P)
         plt.show()
