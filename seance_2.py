@@ -63,7 +63,7 @@ def plot_all_trims(aircraft, hs, Mas, sms, kms, trims, filename=None):
 
 def seance_2(aircraft=dyn.Param_A320()):
 
-    zs, Mas = np.linspace(3000, 11000, 9), [0.5, 0.8]
+    zs, Mas = np.linspace(3000, 11000, 9), [0.4, 0.8]
     sms, kms = [0.2, 1.], [0.1, 0.9]
 
     trims = get_all_trims(aircraft, zs, Mas, sms, kms)
