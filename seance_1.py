@@ -104,7 +104,7 @@ def plot_CL_equilibree(P, filename=None):
     plt.show()
 
 
-def seance_1(ac=dyn.Param_A321()):
+def seance_1(ac=dyn.Param_737_800()):
     plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
     plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')
     plot_Cm(ac, f'../plots/{ac.get_name()}_Cm.png')
@@ -117,6 +117,6 @@ if __name__ == "__main__":
         for t in dyn.all_ac_types:
             seance_1(t())
     else:
-        P = dyn.Param_A321()#use_improved_induced_drag = False, use_stall = False)
+        P = dyn.Param_737_800()#use_improved_induced_drag = False, use_stall = False)
         seance_1(P)
         plt.show()
