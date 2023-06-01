@@ -73,16 +73,16 @@ def plot_all_trims(aircraft, hs, Mas, sms, kms, trims, filename=None):
 #         t.append(i*dt)
 
 
-def simulation(aircraft=dyn.Param_A320()):
-    trim_param =  {'va':200., 'h':5000., 'gamma':0.}
+def simulation(aircraft=dyn.Param_737_800(),trim_param):
+    
     Xe, Ue = dyn.trim(aircraft, trim_param)
     time = np.arange(0., 100, 0.5)
-    X0 = np.array(Xe); X0[dyn.s_a]*=1.001
+    X0 = np.array(Xe); X0[dyn.s_a]*=1.010
     X = scipy.integrate.odeint(dyn.dyn, X0, time, args=(Ue, aircraft))
-    dyn.plot(time, X, window_title="Trajectoire équilibre perturbé")
+    dyn.plot(time, X, window_title="Trajectoire au point de Trim choisit")
 
 
-def seance_2(aircraft=dyn.Param_A320()):
+def seance_2(aircraft=dyn.Param_737_800()):
 
     zs, Mas = np.linspace(3000, 11000, 9), [0.4, 0.8]
     sms, kms = [0.2, 1.], [0.1, 0.9]
@@ -91,7 +91,7 @@ def seance_2(aircraft=dyn.Param_A320()):
 
     plot_all_trims(aircraft, zs, Mas, sms, kms, trims, f'../plots/{aircraft.get_name()}_trim.png')
     #dyn.set_
-    simulation(aircraft)
+    simulation(aircraft,{'va':200., 'h':3000., 'gamma':0.})
 
 
 
