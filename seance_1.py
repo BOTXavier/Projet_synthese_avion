@@ -104,6 +104,9 @@ def plot_CL_equilibree(P, filename=None):
     plt.show()
 
 
+def new_vae(ae,Wh,Vae):
+    return ae + np.arctan(Wh/Vae) 
+
 def seance_1(ac=dyn.Param_A321()):
     plot_thrust(ac, f'../plots/{ac.get_name()}_thrust.png')
     plot_CL(ac, f'../plots/{ac.get_name()}_CL.png')

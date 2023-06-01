@@ -61,6 +61,27 @@ def plot_all_trims(aircraft, hs, Mas, sms, kms, trims, filename=None):
     ut.savefig(filename)
 
 
+# def euler(f,df):
+#     t0 = 0
+#     tf = 100
+#     N = 10000
+#     dt = 100/N
+
+#     t = []
+#     x = []
+#     for i in range(N):
+#         t.append(i*dt)
+
+
+def simulation(aircraft=dyn.Param_A320()):
+    trim_param =  {'va':200., 'h':5000., 'gamma':0.}
+    Xe, Ue = dyn.trim(aircraft, trim_param)
+    time = np.arange(0., 100, 0.5)
+    X0 = np.array(Xe); X0[dyn.s_a]*=1.001
+    X = scipy.integrate.odeint(dyn.dyn, X0, time, args=(Ue, aircraft))
+    dyn.plot(time, X, window_title="Trajectoire équilibre perturbé")
+
+
 def seance_2(aircraft=dyn.Param_A320()):
 
     zs, Mas = np.linspace(3000, 11000, 9), [0.4, 0.8]
@@ -69,6 +90,8 @@ def seance_2(aircraft=dyn.Param_A320()):
     trims = get_all_trims(aircraft, zs, Mas, sms, kms)
 
     plot_all_trims(aircraft, zs, Mas, sms, kms, trims, f'../plots/{aircraft.get_name()}_trim.png')
+    #dyn.set_
+    simulation(aircraft)
 
 
 
