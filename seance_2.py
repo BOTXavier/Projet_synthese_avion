@@ -72,15 +72,16 @@ def plot_all_trims(aircraft, hs, Mas, sms, kms, trims, filename=None):
 #     for i in range(N):
 #         t.append(i*dt)
 
-def new_vae(ae,Wh,Vae):
+def new_ae(ae,Wh,Vae):
     return ae + np.arctan(Wh/Vae) 
 
 
-def simulation(trim_param, aircraft=dyn.Param_737_800()):
+def simulation(trim_param,temps, aircraft=dyn.Param_737_800()):
     
     Xe, Ue = dyn.trim(aircraft, trim_param)
-    time = np.arange(0., 100, 0.5)
-    X0 = np.array(Xe); X0[dyn.s_a]*=1.010
+    time = np.arange(0., temps, 0.5)
+    X0 = np.array(Xe) #; X0[dyn.s_a]*=1.010
+    X0[3] = new_ae(X0[3], 2,trim_param['va']) 
     X = scipy.integrate.odeint(dyn.dyn, X0, time, args=(Ue, aircraft))
     dyn.plot(time, X, window_title="Trajectoire au point de Trim choisit")
 
@@ -94,8 +95,14 @@ def seance_2(aircraft=dyn.Param_737_800()):
 
     plot_all_trims(aircraft, zs, Mas, sms, kms, trims, f'../plots/{aircraft.get_name()}_trim.png')
     #dyn.set_
-    simulation({'va':200., 'h':3000., 'gamma':0.},aircraft)
+    M =0.8
+    ms = 1
+    km = 1
+    aircraft.set_mass_and_static_margin(km, ms)
+    simulation({'va':dyn.va_of_mach(0.8,10000), 'h':10000., 'gamma':0.},100, aircraft)
 
+def seance_3(aircraft=dyn.Param_737_800()):
+    simulation({'va':dyn.va_of_mach(0.8,10000), 'h':10000., 'gamma':0.},240, aircraft)
 
 
 
