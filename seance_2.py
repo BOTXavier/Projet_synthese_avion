@@ -72,8 +72,11 @@ def plot_all_trims(aircraft, hs, Mas, sms, kms, trims, filename=None):
 #     for i in range(N):
 #         t.append(i*dt)
 
+def new_vae(ae,Wh,Vae):
+    return ae + np.arctan(Wh/Vae) 
 
-def simulation(aircraft=dyn.Param_737_800(),trim_param):
+
+def simulation(trim_param, aircraft=dyn.Param_737_800()):
     
     Xe, Ue = dyn.trim(aircraft, trim_param)
     time = np.arange(0., 100, 0.5)
@@ -91,7 +94,7 @@ def seance_2(aircraft=dyn.Param_737_800()):
 
     plot_all_trims(aircraft, zs, Mas, sms, kms, trims, f'../plots/{aircraft.get_name()}_trim.png')
     #dyn.set_
-    simulation(aircraft,{'va':200., 'h':3000., 'gamma':0.})
+    simulation({'va':200., 'h':3000., 'gamma':0.},aircraft)
 
 
 
